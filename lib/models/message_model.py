@@ -1,6 +1,9 @@
 from sqlalchemy import Column, String
-from src.db_client.db_client import Base
+
 import uuid
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 class Message(Base):
     __tablename__ = 'sample_message'
