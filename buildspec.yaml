@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Installing dependencies"
+      - pip install --no-cache-dir -r requirements.txt
+      - pip install git-remote-codecommit
+  pre-buiild:
+    commands:
+      - echo git clone 
+      - echo "[profile codecommit-account]" > .awscli-config
+      - echo "role_arn = ${ASSUME_ROLE_ARN}" >> .awscli-config
+      - echo "credential_source = EcsContainer" >> .awscli-config
+      - export AWS_CONFIG_FILE=${CODEBUILD_SRC_DIR}/.awscli-config
+      - cd ..
+      - cp -R ${CODEBUILD_SRC_DIR} ./${MODULE_NAME}
+      - git clone -b ${BRANCH} https://github.com/${GIT_USERNAME}/${GIT_REPOSITORYNAME}
+  build:
+    commands:
+      - echo "Packaging the Lambda function"
+      - zip -r ../consumer.zip .
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - aws lambda update-function-code --function-name ${LAMBDA_FUNCTION_NAME} --zip-file fileb://consumer.zip
+
+artifacts:
+  files:
+    - consumer.zip
