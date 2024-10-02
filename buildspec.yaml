@@ -6,7 +6,7 @@ phases:
       - echo "Installing dependencies"
       - pip install --no-cache-dir -r requirements.txt
       - pip install git-remote-codecommit
-  pre-build:
+  pre_build:
     commands:
       - echo git clone 
       - echo "[profile codecommit-account]" > .awscli-config
