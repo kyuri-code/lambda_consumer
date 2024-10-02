@@ -4,6 +4,7 @@ import uuid
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from lib.db_client.db_client import Base
 
 class Message(Base):
     __tablename__ = 'sample_message'
