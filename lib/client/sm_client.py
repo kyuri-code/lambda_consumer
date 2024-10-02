@@ -1,7 +1,10 @@
 import boto3
-import json
 
-from src.constant.config import REGION
+import json
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from lib.constant.config import REGION
 
 class SMClient:
 

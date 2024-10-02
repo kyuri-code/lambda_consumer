@@ -1,11 +1,15 @@
 from sqlalchemy.orm import Session
-from src.models.log_model import Log
-from src.models.message_model import Message
-from src.db_client.db_client import DBClient
+
 import uuid
 import json
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from src.client.sqs_client import SQSClient
+from lib.models.log_model import Log
+from lib.models.message_model import Message
+from lib.db_client.db_client import DBClient
+from lib.client.sqs_client import SQSClient
 
 class ConsumerService:
     def __init__(self):
@@ -19,7 +23,6 @@ class ConsumerService:
         end_uuid = str(uuid.uuid4())
 
         try:
-            # aa
             body = json.loads(record['body'])
             message = body.get('message')
             process_id = body.get('process_id')
