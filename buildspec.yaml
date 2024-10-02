@@ -1,5 +1,8 @@
 version: 0.2
 
+env:
+  variables:
+    MODULE_NAME: consumer
 phases:
   install:
     commands:
@@ -16,15 +19,16 @@ phases:
       - cd ..
       - cp -R ${CODEBUILD_SRC_DIR} ./${MODULE_NAME}
       - git clone -b ${BRANCH} https://github.com/${GIT_USERNAME}/${GIT_REPOSITORYNAME}
+      - PROJECT_NAME=$(basename ${GIT_REPOSITORYNAME} .git)
   build:
     commands:
       - echo "Packaging the Lambda function"
-      - zip -r ../consumer.zip .
+      - zip -r ./${MODULE_NAME}.zip ./${PROJECT_NAME}
   post_build:
     commands:
       - echo Build completed on `date`
-      - aws lambda update-function-code --function-name ${LAMBDA_FUNCTION_NAME} --zip-file fileb://consumer.zip
+      - aws lambda update-function-code --function-name ${LAMBDA_FUNCTION_NAME} --zip-file fileb://${MODULE_NAME}.zip
 
 artifacts:
   files:
-    - consumer.zip
+    - ${MODULE_NAME}.zip
