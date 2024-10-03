@@ -28,7 +28,7 @@ class ConsumerService:
             process_id = body.get('process_id')
 
             # 開始ログをDBに追加
-            start_log = Log(uuid=start_uuid, log_message='Process started', processid=process_id)
+            start_log = Log(uuid=start_uuid, log_message='Consumer process started', processid=process_id)
             session.add(start_log)
             session.commit()
 
@@ -38,7 +38,7 @@ class ConsumerService:
             session.commit()
             
             # 終了ログをDBに追加
-            end_log = Log(uuid=end_uuid, log_message='Process ended', processid=process_id)
+            end_log = Log(uuid=end_uuid, log_message='Consumer process ended', processid=process_id)
             session.add(end_log)
             session.commit()
         
