@@ -3,7 +3,8 @@ import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from lib.services.consumer_service import ConsumerService
 
-def lambda_hander(event, context):
+def lambda_handler(event, context):
+    print(event)
     consumer_service = ConsumerService()
     for record in event['Records']:
         consumer_service.process(record)
